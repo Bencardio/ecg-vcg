@@ -1,0 +1,55 @@
+NUMÉRISATION DES ECG PAPIER SCANNÉS POUR L'APPLICATION ECG-VCG
+==============================================================
+
+À quoi ça sert
+--------------
+Un ECG scanné est une image : l'application ECG-VCG ne peut pas le lire
+directement. Cet outil reconstitue le signal de chaque dérivation à partir
+de l'image (Open-ECG-Digitizer, hôpital Akershus, Norvège) et écrit, pour
+chaque ECG, un fichier .csv et un fichier .json que l'application lit.
+Tout se fait sur ce PC : aucun ECG n'est envoyé sur Internet.
+
+Installation (une seule fois, environ 15 minutes)
+-------------------------------------------------
+1. Il faut Python 3.12 ou 3.13 : https://www.python.org/downloads/
+   (cocher « Add python.exe to PATH » à l'installation).
+2. Double-cliquer sur installer.bat. Il télécharge Open-ECG-Digitizer, les
+   poids du modèle (110 Mo) et PyTorch (200 Mo environ).
+
+Utilisation
+-----------
+1. Scanner les ECG à plat, en couleur, 300 dpi au moins (600 dpi idéal),
+   en PDF, PNG, JPG ou TIFF. Un fichier par ECG ; le nom du fichier devient
+   le nom de l'ECG dans l'application (mettre NOM PRENOM si besoin).
+2. Glisser le dossier des scans sur numeriser.bat (ou double-cliquer et
+   coller le chemin du dossier). Compter environ 1 minute par ECG.
+3. Les résultats sont dans le sous-dossier « numerises » :
+   - NOM.csv et NOM.json : à déposer dans l'application
+     https://bencardio.github.io/ecg-vcg/ (les deux ensemble) ;
+   - NOM_controle.png : image redressée et tracés extraits, à regarder ;
+   - bilan_numerisation.csv : liste des ECG avec « ok » ou « à vérifier ».
+
+Réglages (à ajouter après le dossier si besoin)
+-----------------------------------------------
+Par défaut : 3x4 + une bande rythme V1 en bas, 25 mm/s, 10 mm/mV (format GE
+de Saint-Luc).
+   --rythme II        autre bande rythme (II, V5) ; --rythme aucun si absente
+   --vitesse 50       si le tracé est à 50 mm/s
+   --gain 20          si le gain imprimé est 20 mm/mV (ou 5)
+
+Limites à connaître
+-------------------
+- Quand des QRS de grande amplitude débordent sur la ligne voisine, les
+  pics peuvent être tronqués : les voltages (Sokolow, Cornell) sont alors
+  sous-estimés. Regarder l'image de contrôle et la liste « à vérifier ».
+- Précision moindre qu'un PDF vectoriel. Sur 4 ECG GE testés (PDF imprimé
+  en image à 300 dpi) : FC identique, QRS -1 à +12 ms, QT -17 à +1 ms,
+  PR parfois très faux (192 -> 128 ms sur un ECG),
+  angle QRS-T spatial à 2-11° près sauf un ECG à tracés superposés (-34°).
+- Valider sur une dizaine d'ECG dont on a aussi le PDF avant toute étude.
+
+Citation obligatoire
+--------------------
+Stenhede E, Bjørnstad AM, Ranjbar A. Digitizing Paper ECGs at Scale: An
+Open-Source Algorithm for Clinical Research. npj Digit Med 2026.
+doi:10.1038/s41746-025-02327-1 (code sous licence CC BY-SA 4.0).
