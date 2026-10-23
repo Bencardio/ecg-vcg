@@ -67,6 +67,27 @@ TEMPLATE = """<!doctype html>
 </div>
 <div id="root"></div>
 <script id="fichiers" type="application/json">%FILES%</script>
+<script>
+// Firefox : stlite clique sur un lien de téléchargement détaché du document
+// puis révoque aussitôt l'URL blob ; Firefox annule alors le téléchargement
+// (bouton sans effet). On attache le lien au document et on retarde la
+// révocation.
+(function () {
+  const revoke = URL.revokeObjectURL.bind(URL);
+  URL.revokeObjectURL = function (u) { setTimeout(function () { revoke(u); }, 60000); };
+  const click = HTMLAnchorElement.prototype.click;
+  HTMLAnchorElement.prototype.click = function () {
+    if (this.hasAttribute("download") && !this.isConnected) {
+      this.style.display = "none";
+      document.body.appendChild(this);
+      click.call(this);
+      const a = this; setTimeout(function () { a.remove(); }, 1000);
+      return;
+    }
+    return click.call(this);
+  };
+})();
+</script>
 <script type="module">
 import { mount } from "https://cdn.jsdelivr.net/npm/@stlite/browser@%STLITE%/build/stlite.js";
 const files = JSON.parse(document.getElementById("fichiers").textContent);
