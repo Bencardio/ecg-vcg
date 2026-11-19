@@ -15,19 +15,25 @@ simultanées ? Les ECG numériques annotés sont passés par le code de l'outil
 | Grille 3x4 (une fenêtre de 2,5 s par dérivation, comme l'outil) | 0,900 | 0,919 |
 | Valeurs publiées par Strodthoff et al. 2021 | 0,925 | 0,937 |
 
-## Ribeiro 2020 sur CODE-test (716 ECG sur 827 traités, annotations de cardiologues)
+## Ribeiro 2020 sur CODE-test (827 ECG, annotations de cardiologues)
 
-| Classe | n | AUC 10 s réelles | AUC battement médian | Sens. / spéc. 10 s | Sens. / spéc. médian |
+Colonne « 10 s réelles » : protocole des auteurs (tracé complété par des
+zéros à 4 096 points), 716 ECG. Colonne « battement médian » : entrée de
+l'outil, grille 3x4 simulée sur la durée réelle du tracé (7 à 10 s), 813 ECG
+(14 sans battement médian exploitable).
+
+| Classe | n (813) | AUC 10 s réelles | AUC battement médian | Sens. / spéc. 10 s | Sens. / spéc. médian |
 |---|---|---|---|---|---|
-| BAV 1 | 21 | 0,994 | 0,988 | 0,90 / 1,00 | 0,71 / 0,99 |
-| BBD | 31 | 0,999 | 0,998 | 1,00 / 0,99 | 1,00 / 0,99 |
-| BBG | 27 | 1,000 | 0,999 | 1,00 / 1,00 | 0,96 / 0,99 |
-| Bradycardie sinusale | 12 | 0,999 | 0,999 | 0,92 / 1,00 | 0,92 / 0,99 |
-| FA | 12 | 0,997 | 0,983 | 0,67 / 1,00 | 0,67 / 0,99 |
-| Tachycardie sinusale | 37 | 0,998 | 0,997 | 0,97 / 1,00 | 0,86 / 1,00 |
+| BAV 1 | 28 | 0,994 | 0,993 | 0,90 / 1,00 | 0,86 / 0,99 |
+| BBD | 33 | 0,999 | 0,999 | 1,00 / 0,99 | 1,00 / 0,99 |
+| BBG | 30 | 1,000 | 0,999 | 1,00 / 1,00 | 1,00 / 0,99 |
+| Bradycardie sinusale | 14 | 0,999 | 0,998 | 0,92 / 1,00 | 0,93 / 1,00 |
+| FA | 13 | 0,997 | 0,987 | 0,67 / 1,00 | 0,54 / 1,00 |
+| Tachycardie sinusale | 37 | 0,998 | 0,998 | 0,97 / 1,00 | 0,89 / 1,00 |
 
-111 ECG sur 827 n'ont pas donné de battement médian (détection des R sur DII
-du code de l'outil) et sont exclus.
+Seuils publiés par les auteurs. La FA reste bien classée (AUC 0,99) grâce aux
+intervalles RR réels, mais au seuil publié la moitié des FA est manquée : le
+rythme doit être lu dans l'onglet ECGFounder (1 dérivation).
 
 ## ECGFounder sur PTB-XL (pli 10, 2 188 ECG, correspondance d'étiquettes des auteurs)
 
@@ -48,8 +54,9 @@ AUC, extraits :
 | Infarctus inférieur | 265 | 0,858 | 0,842 | | |
 | Hypertrophie atriale gauche | 41 | 0,818 | 0,715 | | |
 
-Sur CODE-test, ECGFounder 1D sur DII : FA 0,999, bradycardie 0,982,
-tachycardie 0,998.
+Sur CODE-test (813 ECG), ECGFounder 1D sur DII : FA 0,999, bradycardie 0,981,
+tachycardie 0,999 ; ECGFounder 12D sur battement médian : BBD 0,984, BBG 0,997,
+BAV 1 0,829.
 
 ## Ce qu'on en retient
 
