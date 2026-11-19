@@ -91,6 +91,9 @@ TEMPLATE = """<!doctype html>
 <script type="module">
 import { mount } from "https://cdn.jsdelivr.net/npm/@stlite/browser@%STLITE%/build/stlite.js";
 const files = JSON.parse(document.getElementById("fichiers").textContent);
+// Adresse de la page, pour retrouver les poids des modèles publiés
+// (dossier modeles/ à côté de index.html, cf. ecg_hcm/ai_models.py).
+files["_page_url.txt"] = location.href.split("#")[0].split("?")[0];
 document.getElementById("chargement").remove();
 mount({ entrypoint: "app_web.py", requirements: %REQS%, files,
         streamlitConfig: { "browser.gatherUsageStats": false } },
