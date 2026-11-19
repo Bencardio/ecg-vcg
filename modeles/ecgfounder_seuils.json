@@ -1,0 +1,16 @@
+{
+ "source": "F1 maximal sur le pli 9 de PTB-XL (eval_models.py), entrées reconstruites comme dans l'outil, gardé s'il est entre 0,2 et 0,9 ; 0,5 sinon",
+ "ecgfounder12": {
+  "PREMATURE VENTRICULAR COMPLEXES": 0.2937,
+  "RIGHT BUNDLE BRANCH BLOCK": 0.5593,
+  "SEPTAL INFARCT": 0.2883,
+  "LATERAL INFARCT": 0.2987,
+  "ELECTRONIC ATRIAL PACEMAKER": 0.2376,
+  "ANTEROLATERAL INFARCT": 0.2624,
+  "RIGHT VENTRICULAR HYPERTROPHY": 0.501
+ },
+ "ecgfounder1": {
+  "ATRIAL FIBRILLATION": 0.8551,
+  "PREMATURE VENTRICULAR COMPLEXES": 0.8893
+ }
+}

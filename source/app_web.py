@@ -31,6 +31,11 @@ with open("app.py", encoding="utf-8") as _f:
     _src = _f.read()
 _src = _src.replace("pass  # <laisser-la-main-au-navigateur>",
                     "await __import__('asyncio').sleep(0.05)  #")
+# Modèles publiés (ai_models.py) : onnxruntime-web est asynchrone dans le
+# navigateur ; on remplace les appels synchrones de app.py par leur version
+# asynchrone.
+_src = _src.replace("ai_models.load_meta_sync()", "(await ai_models.load_meta_async())")
+_src = _src.replace("ai_models.analyse_sync(", "await ai_models.analyse_async(")
 _code = compile(_src, "app.py", "exec", flags=ast.PyCF_ALLOW_TOP_LEVEL_AWAIT)
 _ret = eval(_code, {"__name__": "__main__"})
 if asyncio.iscoroutine(_ret):
